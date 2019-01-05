@@ -1,5 +1,7 @@
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser');
+
 app.get("/", (req, res) => res.send("hello world"));
 
 app.post('/login', (req, res) => res.send("test login action"));
@@ -18,6 +20,8 @@ app.get('/next', (req, res, next) => {
 app.set('views', './views');
 //set view engine
 app.set('view engine', 'ejs');
+
+var urlendcodeParser = bodyParser.urlencoded({'extended' :false});
 
 app.get('/ejs', (req, res) => {
   var students = [
@@ -39,6 +43,10 @@ app.get('/ejs', (req, res) => {
   });
 })
 
+app.post('/checkPost', urlendcodeParser, function(req, res){
+  var body = req.body;
+  res.end(JSON.stringify(body));
+})
 
 
 app.listen(4000);
